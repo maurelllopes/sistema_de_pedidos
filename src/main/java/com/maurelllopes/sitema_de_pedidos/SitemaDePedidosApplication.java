@@ -8,6 +8,5 @@ public class SitemaDePedidosApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SitemaDePedidosApplication.class, args);
-	}
 
-}
+}}
