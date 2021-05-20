@@ -1,84 +1,103 @@
 package com.maurelllopes.sitema_de_pedidos.domain;
 
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Produto implements Serializable {
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
-	private String nome;
-	private Double preco;
+    private static final long serialVersionUID = 1L;
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+    private String nome;
+    private Double preco;
 
-	@JsonBackReference
-	@ManyToMany
-	@JoinTable(name = "PRODUTO_CATEGORIA", 
-	joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
-	private List<Categoria> categorias = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "PRODUTO_CATEGORIA",
+        joinColumns = @JoinColumn(name = "produto_id"),
+        inverseJoinColumns = @JoinColumn(name = "categoria_id") )
 
-	public Produto() {
-	}
+    private List<Categoria> categorias = new ArrayList<>();
 
-	public Produto(Integer id, String nome, Double preco) {
-		super();
-		this.setId(id);
-		this.setNome(nome);
-		this.setPreco(preco);
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "id.produto")
+    private Set<ItemPedido> itens = new HashSet<>();
 
-	public Integer getId() {
-		return id;
-	}
+    public Produto(){
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public Produto(Integer id, String nome, Double preco) {
+        super();
+        this.setId(id);
+        this.setNome(nome);
+        this.setPreco(preco);
+    }
 
-	public String getNome() {
-		return nome;
-	}
+    @JsonIgnore
+    public List<Pedido> getPedidos() {
+        List<Pedido> lista = new ArrayList<>();
+        for (ItemPedido x : itens) {
+            lista.add(x.getPedido());
+        }
+        return lista;
+    }
+    public Integer getId() {
+        return id;
+    }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Double getPreco() {
-		return preco;
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public void setPreco(Double preco) {
-		this.preco = preco;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public List<Categoria> getCategorias() {
-		return categorias;
-	}
+    public Double getPreco() {
+        return preco;
+    }
 
-	public void setCategorias(List<Categoria> categorias) {
-		this.categorias = categorias;
-	}
+    public void setPreco(Double preco) {
+        this.preco = preco;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o)
-			return true;
-		if (o == null || getClass() != o.getClass())
-			return false;
-		Produto produto = (Produto) o;
-		return Objects.equals(id, produto.id);
-	}
+    public List<Categoria> getCategorias() {
+        return categorias;
+    }
 
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
+    public void setCategorias(List<Categoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    public Set<ItemPedido> getItens() {
+        return itens;
+    }
+
+    public void setItens(Set<ItemPedido> itens) {
+        this.itens = itens;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
 }

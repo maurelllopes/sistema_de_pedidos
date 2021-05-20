@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.maurelllopes.sitema_de_pedidos.domain.Endereco;
 
 
-
+@Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
 
 }

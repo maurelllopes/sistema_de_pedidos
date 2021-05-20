@@ -13,6 +13,7 @@ import com.maurelllopes.sitema_de_pedidos.domain.Cidade;
 import com.maurelllopes.sitema_de_pedidos.domain.Cliente;
 import com.maurelllopes.sitema_de_pedidos.domain.Endereco;
 import com.maurelllopes.sitema_de_pedidos.domain.Estado;
+import com.maurelllopes.sitema_de_pedidos.domain.ItemPedido;
 import com.maurelllopes.sitema_de_pedidos.domain.Pagamento;
 import com.maurelllopes.sitema_de_pedidos.domain.PagamentoComBoleto;
 import com.maurelllopes.sitema_de_pedidos.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.maurelllopes.sitema_de_pedidos.repositories.CidadeRepository;
 import com.maurelllopes.sitema_de_pedidos.repositories.ClienteRepository;
 import com.maurelllopes.sitema_de_pedidos.repositories.EnderecoRepository;
 import com.maurelllopes.sitema_de_pedidos.repositories.EstadoRepository;
+import com.maurelllopes.sitema_de_pedidos.repositories.ItemPedidoRepository;
 import com.maurelllopes.sitema_de_pedidos.repositories.PagamentoRepository;
 import com.maurelllopes.sitema_de_pedidos.repositories.PedidoRepository;
 import com.maurelllopes.sitema_de_pedidos.repositories.ProdutoRepository;
@@ -48,6 +50,8 @@ public class SitemaDePedidosApplication implements CommandLineRunner {
 	private PedidoRepository pedidoRepository;
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SitemaDePedidosApplication.class, args);
@@ -57,6 +61,12 @@ public class SitemaDePedidosApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
+		Categoria cat4 = new Categoria(null, "Eletrônicos");
+		Categoria cat5 = new Categoria(null, "Jardinagem");
+		Categoria cat6 = new Categoria(null, "Decoração");
+		Categoria cat7 = new Categoria(null, "Perfumaria");
+
 
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 1000.00);
@@ -69,7 +79,7 @@ public class SitemaDePedidosApplication implements CommandLineRunner {
 		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 
-		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 
 		Estado est1 = new Estado(null, "Minas Gerais");
@@ -84,7 +94,7 @@ public class SitemaDePedidosApplication implements CommandLineRunner {
 
 		estadoRepository.saveAll(Arrays.asList(est1, est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
-		
+
 		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "36378912377", TipoCliente.PESSOAFISICA);
 		cli1.getTelefones().addAll(Arrays.asList("233633234", "93383897"));
 
@@ -95,7 +105,7 @@ public class SitemaDePedidosApplication implements CommandLineRunner {
 
 		clienteRepository.saveAll(Arrays.asList(cli1));
 		enderecoRepository.saveAll(Arrays.asList(e1, e2));
-		
+
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
 		Pedido ped1 = new Pedido(null, sdf.parse("30/09/2019 10:32"), cli1, e1);
@@ -110,6 +120,19 @@ public class SitemaDePedidosApplication implements CommandLineRunner {
 
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped1, p2, 100.00, 1, 800.00);
+
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 
 	}
 }
