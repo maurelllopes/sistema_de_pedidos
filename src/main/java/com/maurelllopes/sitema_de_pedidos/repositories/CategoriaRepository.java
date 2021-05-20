@@ -6,8 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.maurelllopes.sitema_de_pedidos.domain.Categoria;
 
 @Repository
-public interface CategoriaRepository extends JpaRepository<Categoria, Integer>{
-	
-	
+public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
 }

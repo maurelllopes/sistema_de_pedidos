@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.maurelllopes.sitema_de_pedidos.domain.Cidade;
 
 @Repository
-public interface CidadeRepository extends JpaRepository<Cidade, Integer>{
+public interface CidadeRepository extends JpaRepository<Cidade, Integer> {
 
 }

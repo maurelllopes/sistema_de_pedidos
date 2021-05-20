@@ -11,19 +11,18 @@ import com.maurelllopes.sitema_de_pedidos.domain.Categoria;
 import com.maurelllopes.sitema_de_pedidos.service.CategoriaService;
 
 @RestController
-@RequestMapping(value="/categorias")
+@RequestMapping(value = "/categorias")
 public class CategoriaResource {
-	
+
 	@Autowired
 	private CategoriaService service;
-	
-	@RequestMapping(value="/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) {
-		
-		 Categoria obj = service.find(id);
-	     return ResponseEntity.ok().body(obj);
-	    
-	}
-	}
 
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public ResponseEntity<?> find(@PathVariable Integer id) {
+
+		Categoria obj = service.find(id);
+		return ResponseEntity.ok().body(obj);
+
+	}
+}
 

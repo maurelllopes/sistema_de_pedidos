@@ -16,6 +16,7 @@ import java.util.Objects;
 @Entity
 public class Categoria implements Serializable {
    private static final long serialVersionUID = 1L;
+   
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -27,6 +28,7 @@ public class Categoria implements Serializable {
 
     public Categoria(){
     }
+    
     public Categoria(Integer id, String nome){
        super();
        this.setId(id);
@@ -72,6 +74,5 @@ public class Categoria implements Serializable {
 
         return Objects.hash(id);
     }
-
 
 }
